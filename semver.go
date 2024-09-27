@@ -86,26 +86,7 @@ func Parse(versionStr string) (*Version, error) {
 	preRelease := matches[4]
 	build := matches[5]
 
-	// Validate pre-release identifiers
-	if preRelease != "" {
-		identifiers := strings.Split(preRelease, ".")
-		for _, id := range identifiers {
-			if id == "" {
-				return nil, ErrorInvalidPreRelease
-			}
-			if isNumeric(id) && hasLeadingZero(id) {
-				return nil, ErrorPreReleaseLeadingZero
-			}
-		}
-	}
-
-	return &Version{
-		major:      major,
-		minor:      minor,
-		patch:      patch,
-		preRelease: preRelease,
-		build:      build,
-	}, nil
+	return New(major, minor, patch, preRelease, build)
 }
 
 // isNumeric checks if a string is numeric.
